@@ -1,6 +1,6 @@
 discovery.docker "docker" {
 	host             = "unix:///var/run/docker.sock"
-	refresh_interval = "5s"
+	refresh_interval = "30s"
 }
 
 discovery.relabel "docker" {
@@ -18,11 +18,11 @@ loki.source.docker "getting_started" {
 	targets          = discovery.docker.docker.targets
 	forward_to       = [loki.write.grafana_loki.receiver]
 	relabel_rules    = discovery.relabel.docker.rules
-	refresh_interval = "5s"
+	refresh_interval = "30s"
 }
 
-local.file_match "local_files" {
-  path_targets = [
+loki.source.file "log_scrape" {
+  targets = [
     {
       "__path__" = "/var/log/**/*.log",
       "hostname" = constants.hostname,
@@ -40,13 +40,19 @@ local.file_match "local_files" {
       "hostname" = constants.hostname,
     },
   ]
-  sync_period = "5s"
-}
 
-loki.source.file "log_scrape" {
-  targets       = local.file_match.local_files.targets
   forward_to    = [loki.write.grafana_loki.receiver]
   tail_from_end = true
+
+  file_match {
+    enabled     = true
+    sync_period = "60s"
+  }
+
+  file_watch {
+    min_poll_frequency = "1s"
+    max_poll_frequency = "30s"
+  }
 }
 
 loki.write "grafana_loki" {
