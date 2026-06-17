@@ -1,0 +1,3 @@
+[manifest]
+desc="Grafana Alloy は、名だたるコレクターの長所を一つ所に集めたるものに候。アプリケーション、インフラ、又は其の兩者を見守るに當たり、Grafana Alloy はテレメトリー信號を取り込み、捌き、送り出し、監視の仕組みを規模に應じて伸ばし、將來の變化にも堪へ得るものと致し候。<br>詳細は公式文書を御参照下されたく候 <a href="https://grafana.com/docs/alloy/latest/" target="_blank" rel="noopener noreferrer">https://grafana.com/docs/alloy/latest/</a><br>永続化設定は、総て導入時御選定の保存領域に置かれ候<br>/volX/@appshare/grafana.alloy"
+changelog="target_version に更新<br/>"
