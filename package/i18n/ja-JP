@@ -1,0 +1,3 @@
+[manifest]
+desc="Grafana Alloy は、主要なる蒐集器の強みを一處に併せ持つものに候。應用、基盤、又は其の兩者を觀測するに當たり、Grafana Alloy は遠隔測定信號を蒐集、處理、及び輸出し、觀測運用を擴張可能にし、將來に備へ得るものに候。<br>詳細は公式文書を御参照下されたく候 <a href="https://grafana.com/docs/alloy/latest/" target="_blank" rel="noopener noreferrer">https://grafana.com/docs/alloy/latest/</a><br>永続化設定は、総て導入時御選定の保存領域に置かれ候<br>/volX/@appshare/grafana.alloy"
+changelog="target_version に更新<br/>"

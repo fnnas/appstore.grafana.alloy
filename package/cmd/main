@@ -8,7 +8,7 @@ PACKAGE_SHARE="/var/apps/grafana.alloy/shares/grafana.alloy"
 EXEC_BIN="${PACKAGE_BASE}/app/alloy-linux"
 #EXEC_ARGS=" --storage.path=${PACKAGE_SHARE}/storage --server.http.listen-addr=0.0.0.0:12345 ${PACKAGE_SHARE}/config.alloy.conf"
 EXEC_ARGS=" --storage.path=${PACKAGE_SHARE}/storage ${PACKAGE_SHARE}/config.alloy.conf"
-LOG_DIR="/tmp/grafana.log"
+LOG_DIR="${PACKAGE_SHARE}"
 LOG_FILE="${LOG_DIR}/grafana.alloy.log"
 
 EXEC_CMDLINE="${EXEC_BIN} run ${EXEC_ARGS}"
