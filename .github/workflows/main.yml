@@ -17,8 +17,8 @@ on:
         default: false
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  target_version: "1.17.0"
-  this_pack_manifest_version: "1.17.0-1"
+  target_version: "1.17.1"
+  this_pack_manifest_version: "1.17.1-1"
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -84,7 +84,7 @@ jobs:
        with:
          tag_name: ${{ env.this_pack_manifest_version }}
          prerelease: true
-         release_name: "fnnas.appstore.grafana.alloy.${{ env.this_pack_manifest_version }}"
+         release_name: "grafana.alloy.${{ env.this_pack_manifest_version }}"
 
      - name: Upload Release Assets
        if: ${{ inputs.make_release }}
