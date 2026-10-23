@@ -31,12 +31,28 @@ jobs:
         run: |
           pwd
           ls -l
+      - name: 缓存官方压缩包
+        uses: actions/cache@v4
+        with:
+          path: tmp/downloads/${{ inputs.target_version }}/alloy-linux-${{ env.target_pack_arch }}.zip
+          key: alloy-release-v1-${{ runner.os }}-${{ env.target_pack_arch }}-${{ inputs.target_version }}
       - name: 下载压缩文件
         run: |
-          wget https://github.com/grafana/alloy/releases/download/v${{ env.target_version }}/alloy-linux-${{ env.target_pack_arch }}.zip
+          download_dir="tmp/downloads/$target_version"
+          archive="alloy-linux-$target_pack_arch.zip"
+          mkdir -p "$download_dir"
+          if [[ ! -f "$download_dir/$archive" ]]; then
+            wget -O "$download_dir/$archive.part" "https://github.com/grafana/alloy/releases/download/v$target_version/$archive"
+            mv "$download_dir/$archive.part" "$download_dir/$archive"
+          fi
+      - name: 校验官方 SHA256
+        working-directory: tmp/downloads/${{ inputs.target_version }}
+        run: |
+          wget -O SHA256SUMS "https://github.com/grafana/alloy/releases/download/v$target_version/SHA256SUMS"
+          awk -v archive="alloy-linux-$target_pack_arch.zip" '$2 == archive' SHA256SUMS | sha256sum --check --strict
       - name: 解压压缩文件
         run: |
-          unzip alloy-linux-${{ env.target_pack_arch }}.zip
+          unzip "tmp/downloads/$target_version/alloy-linux-$target_pack_arch.zip"
       - name: 移动可执行文件
         run: |
           mv alloy-linux-${{ env.target_pack_arch }} ./app/alloy-linux
@@ -56,7 +72,7 @@ jobs:
         run: |
           tar zcvf appstore.grafana.alloy.${{ env.this_pack_manifest_version }}.${{ env.target_pack_arch }}.tgz package
       - name: 上传应用包
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: appstore.grafana.alloy.${{ env.this_pack_manifest_version }}.${{ env.target_pack_arch }}.tgz
           path: appstore.grafana.alloy.${{ env.this_pack_manifest_version }}.${{ env.target_pack_arch }}.tgz
