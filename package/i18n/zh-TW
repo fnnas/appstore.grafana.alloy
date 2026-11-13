@@ -1,0 +1,3 @@
+[manifest]
+desc="Grafana Alloy 整合了主流資料收集器的優點。無論是監控應用程式、基礎架構，或兩者兼顧，Grafana Alloy 都能收集、處理及匯出遙測資料，讓您的可觀測性架構隨需求擴充並因應未來變化。<br>詳細資訊請參閱官方文件 <a href='https://grafana.com/docs/alloy/latest/' target='_blank' rel='noopener noreferrer'>https://grafana.com/docs/alloy/latest/</a><br>持久化設定儲存於安裝時選擇的儲存空間<br>若要使用新版預設設定檔，請先備份再移除現有設定檔<br>/volX/@appshare/grafana.alloy<br>此應用程式套件由社群使用者提供並維護。"
+changelog="更新至 target_version<br/>"

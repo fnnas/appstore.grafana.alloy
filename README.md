@@ -7,13 +7,19 @@
 
 ## 打包
 
-当前打包 Grafana Alloy **v1.21.2**，应用包版本为 **1.21.2-1**，支持 amd64 和 arm64。
+当前打包 Grafana Alloy **v1.21.3**，应用包版本为 **1.21.3-1**，支持 amd64 和 arm64。
 
 在 GitHub Actions 中手动运行 `Test Release` 工作流即可构建；勾选 `make_release` 会同时创建预发布并上传应用包。构建时会使用官方 `SHA256SUMS` 校验下载的二进制压缩包。
 
 官方压缩包通过 `actions/cache@v4` 按运行系统、架构和上游版本缓存，同一版本再次打包时可复用，调整应用包版本不会使下载缓存失效。每次构建仍会重新获取官方 `SHA256SUMS` 并校验压缩包；缓存目录为 `tmp/downloads/<上游版本>/`。
 
 后续更新版本时，修改 `.github/workflows/main.yml` 中的 `target_version` 和 `this_pack_manifest_version`。
+
+## 本地化
+
+应用商店介绍和更新日志支持简体中文（`zh-CN`）、英语（`en`）、日语（`ja-JP`）、繁体中文（`zh-TW`）、德语（`de-DE`）、法语（`fr-FR`）、西班牙语（`es-ES`）、韩语（`ko-KR`）、俄语（`ru-RU`）和意大利语（`it-IT`）。
+
+翻译文件位于 `package/i18n/`，以语言代码命名，包含 `[manifest]` 下的 `desc` 和 `changelog`。两种架构打包时都会收录整个目录，并将更新日志中的 `target_version` 替换为上游版本号。
 
 ## 目录结构
 
@@ -37,6 +43,7 @@
 │   │   ├── uninstall_callback# 卸载后钩子
 │   │   ├── upgrade_init      # 升级前钩子
 │   │   └── upgrade_callback  # 升级后钩子
+│   ├── i18n/                # 应用商店介绍及更新日志翻译
 │   └── config/
 │       ├── resource          # 共享存储及 systemd 配置
 │       └── privilege         # 权限配置（以 root 运行）

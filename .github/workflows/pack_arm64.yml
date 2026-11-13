@@ -59,7 +59,7 @@ jobs:
           chmod a+x ./app/alloy-linux
       - name: 替换架构及版本号信息
         run: |
-          sed "s/target_version/${{ env.target_version }}/g" -i ./package/manifest
+          sed "s/target_version/${{ env.target_version }}/g" -i ./package/manifest ./package/i18n/*
           sed "s/target_pack_arch/${{ env.target_pack_arch }}/g" -i ./package/manifest
           sed "s/this_pack_manifest_version/${{ env.this_pack_manifest_version }}/g" -i ./package/manifest
           sed "s/this_pack_manifest_arch/${{ env.this_pack_manifest_arch }}/g" -i ./package/manifest

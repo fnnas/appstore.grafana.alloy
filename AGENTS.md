@@ -7,7 +7,7 @@ This repository packages upstream Grafana Alloy Linux binaries for fnOS; it does
 - `.github/workflows/main.yml`: manual `Test Release` workflow, version settings, artifact collection and optional GitHub prerelease.
 - `.github/workflows/pack_amd64.yml` and `pack_arm64.yml`: download, checksum verification, manifest substitution and tar packaging.
 - `app/`: default Alloy configuration and runtime UI assets. The downloaded executable becomes `app/alloy-linux`.
-- `package/`: manifest template, icons, lifecycle Bash scripts, privilege/resource JSON and `i18n/{zh-CN,en,ja-JP}` metadata.
+- `package/`: manifest template, icons, lifecycle Bash scripts, privilege/resource JSON and localized metadata under `i18n/`.
 - `ui/` and `package/wizard/`: retained placeholder directories used by packaging.
 
 ## Packaging changes
@@ -27,9 +27,17 @@ This repository packages upstream Grafana Alloy Linux binaries for fnOS; it does
 - Copy the default configuration only when the user's configuration is absent. Preserve existing configuration and storage during upgrades.
 - The default template collects Docker and host logs and sends them to Loki at `http://127.0.0.1:3100/loki/api/v1/push`.
 
+## Localization
+
+- Maintain application metadata for `zh-CN`, `en`, `ja-JP`, `zh-TW`, `de-DE`, `fr-FR`, `es-ES`, `ko-KR`, `ru-RU` and `it-IT` in extensionless files under `package/i18n/`.
+- Keep the `[manifest]` section, `desc` and `changelog` keys, storage paths and HTML formatting consistent. Translate user-facing text; retain product names and the `target_version` placeholder in source files.
+- Use UTF-8 with LF endings. Use single quotes for HTML attributes inside double-quoted metadata values.
+- Both architecture workflows must replace `target_version` in every locale file in the build copy. For translation-only changes, validate metadata and version substitution without downloading binaries or building locally.
+
 ## Validation and hygiene
 
-- There is no standalone build script or test suite. For packaging changes, reproduce each architecture workflow's commands in disposable Linux/WSL staging directories; its `sed` and `mv` steps mutate files.
+- When the request only syncs an official upstream version, update version settings and README and perform static checks; do not build locally unless the user explicitly requests a build.
+- There is no standalone build script or test suite. For changes to packaging logic, reproduce each architecture workflow's commands in disposable Linux/WSL staging directories; its `sed` and `mv` steps mutate files.
 - Check shell syntax with `for script in package/cmd/*; do bash -n "$script"; done`, parse changed workflow YAML and run `git diff --check`.
 - With a matching host architecture and the downloaded binary in place, run `./app/alloy-linux --version` and `./app/alloy-linux validate app/config.alloy.conf.template`.
 - Inspect both archives: resolved manifest version/architecture/platform, nested archive layout, ELF architecture and executable permissions. Validate fnOS installation and lifecycle behavior on a real device; WSL build checks do not cover these.
